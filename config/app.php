@@ -14,6 +14,9 @@ return [
     //视图目录
     'view_dir'       => BASE_PATH . 'resources/',
 
+    //视图缓存目录
+    'view_cache_dir'       => BASE_PATH . 'storage/framework/views',
+
     //命名空间所在目录
     'namespace'      => [
         'app'        => 'app/',
