@@ -21,26 +21,42 @@ class Application extends Micro
         $this->container=$container;
         $this->setDI($container);
         //$this->autoRegisterModule();
+		//$this->dispatchRoute();
 
     }
 
-    public function autoRegisterModule(){
+    public function handle($uri = null)
+	{
+		parent::handle($uri);
+	}
+
+	public function dispatchRoute(){
         $router=$this->container->getShared('router');
-
         $moduleName=$router->getModuleName();
-        $container=$this->container;
-        $view=new View();
+        $controller=$router->getControllerName();
+        $action=$router->getActionName();
+        print_r([
+			'module' => $moduleName,
+			'controller' => $controller,
+			'action'     => $action,
+		]);
+		$router->add(
+			'Index',
+			[
+				'module' => $moduleName,
+				'controller' => $controller,
+				'action'     => $action,
+			]
+		);
+		$router->handle();
+        //$container=$this->container;
+        //$view=new View();
 
-        $this->registerModules([
-            $moduleName => function($container)use($view){
-                $app_config=$container->getShared('app_config');
-                $container->setShared('view',function ()use($view,$app_config){
-                    $view->setViewsDir($app_config->view_dir);
-                    return $view;
-                });
-
-            }
-        ]);
+//        $this->registerModules([
+//            $moduleName => [
+//            	'className'=>
+//			],
+//        ]);
     }
 
 

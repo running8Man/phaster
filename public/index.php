@@ -29,8 +29,7 @@ try{
     echo nl2br(htmlentities($e->getTraceAsString()));
 }
 
-//$container=new \Phaster\lib\Container();
-//var_dump($container);
+
 
 $t2 = microtime(true);
 echo '<br>耗时'.round($t2-$app_start_time,6).'秒<br>';

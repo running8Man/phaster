@@ -5,9 +5,9 @@ use lib\phaster\Container;
 
 class IndexController
 {
-    public function indexAction(){
-        echo 'hello';
-       //return $this->view->render('index','index');
+    public function index(){
+        //echo 'hello';
+       return $this->view->render('index');
     }
 
     public function notfoundAction(){

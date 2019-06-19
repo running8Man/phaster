@@ -9,13 +9,13 @@ return [
     'force_route'    => true,
 
     //日志目录
-    'log_dir'        => BASE_PATH . 'storage/logs',
+    'log_dir'        => BASE_PATH . '/storage/logs',
 
     //视图目录
-    'view_dir'       => BASE_PATH . 'resources/',
+    'view_dir'       => BASE_PATH . '/resources/',
 
     //视图缓存目录
-    'view_cache_dir'       => BASE_PATH . 'storage/framework/views',
+    'view_cache_dir'       => BASE_PATH . '/storage/framework/views/',
 
     //命名空间所在目录
     'namespace'      => [
@@ -29,6 +29,9 @@ return [
         "controller" => "Index",
         "action"     => "index",
     ],
+
+	//是否强制使用路由
+	'url_route_must' => false,
 
     //404路由
     'not_found'      => [
