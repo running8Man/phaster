@@ -13,7 +13,7 @@ use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Url;
-use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 
 class Container extends FactoryDefault
 {
@@ -35,8 +35,8 @@ class Container extends FactoryDefault
     private function registerServices():void
     {
         $this->registerConfig();
-        //$this->registerRouter();
-        //$this->registerDispatcher();
+        $this->registerRouter();
+        $this->registerDispatcher();
         $this->registerView();
         $this->registerUrlResolver();
 
@@ -69,11 +69,17 @@ class Container extends FactoryDefault
         $this->setShared('router',function (){
             $router=new \Phalcon\Mvc\Router();
 
-            //设置多模块路由模式
-            $router->add(
-                '/:module/:controller/:action/:params',
-                ['module' => 1, 'controller' => 2, 'action' => 3, 'params' => 4]
-            );
+            //强制路由模式
+			if(self::$app_config->url_route_must){
+
+			}else{
+				//设置多模块路由模式
+				$router->add(
+					'/:module/:controller/:action/:params',
+					['module' => 1, 'controller' => 2, 'action' => 3, 'params' => 4]
+				);
+			}
+
             //设置默认路由
             $router->setDefaults((array)self::$app_config->default_module);
             $router->handle();
@@ -102,20 +108,22 @@ class Container extends FactoryDefault
     private function registerView():void {
         $di=$this;
         $this->setShared('view',function ()use($di){
-            $view = new View();
+            $view = new \Phalcon\Mvc\View\Simple();
+
             $view->setViewsDir(self::$app_config->view_dir);
+
             $view->registerEngines([
                 '.volt' =>function($view,$di){
-                    $volt = new View\Engine\Volt($view,$di);
+                    $volt = new VoltEngine($view,$di);
                     $volt->setOptions(
                         [
                             'compiledPath'      => self::$app_config->view_cache_dir,
                             'compiledSeparator' => '_',
                         ]
                     );
+					return $volt;
                 }
             ]);
-            print_r($view);
             return $view;
         });
     }
