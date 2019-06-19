@@ -19,45 +19,26 @@ class Application extends Micro
     public function __construct(Container $container)
     {
         $this->container=$container;
-        $this->setDI($container);
-        //$this->autoRegisterModule();
-		//$this->dispatchRoute();
-
+        $this->dispatchRoute();
     }
 
-    public function handle($uri = null)
-	{
-		parent::handle($uri);
-	}
 
 	public function dispatchRoute(){
-        $router=$this->container->getShared('router');
-        $moduleName=$router->getModuleName();
-        $controller=$router->getControllerName();
-        $action=$router->getActionName();
-        print_r([
-			'module' => $moduleName,
-			'controller' => $controller,
-			'action'     => $action,
-		]);
-		$router->add(
-			'Index',
-			[
-				'module' => $moduleName,
-				'controller' => $controller,
-				'action'     => $action,
-			]
-		);
-		$router->handle();
-        //$container=$this->container;
-        //$view=new View();
-
-//        $this->registerModules([
-//            $moduleName => [
-//            	'className'=>
-//			],
-//        ]);
+        $requestPath = $this->getRoutePath();
+        $controllerClass='app'.'\\'.$requestPath['module'].'\\controller\\'.$requestPath['controller'];
+        var_dump($requestPath['module']);
+        $collection = new \Phalcon\Mvc\Micro\Collection();
+        $collection->setHandler($controllerClass,true);
+        $collection->get('/Index',$requestPath['action']);
+        $this->mount($collection);
     }
+
+    public function getRoutePath(){
+        $router=$this->container->getShared('router');
+        return ['module'=>$router->getModuleName(), 'controller'=>$router->getControllerName(),'action'=>$router->getActionName()];
+    }
+
+
 
 
 }

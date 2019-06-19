@@ -1,12 +1,11 @@
 <?php
 namespace app\Index\controller;
 
-use lib\phaster\Container;
+use lib\phaster\Controller;
 
-class IndexController
+class Index extends Controller
 {
     public function index(){
-        //echo 'hello';
        return $this->view->render('index');
     }
 

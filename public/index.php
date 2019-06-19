@@ -18,10 +18,6 @@ require BASE_PATH.'/config/autoloader.php';
 try{
     $container = new \lib\phaster\Container();
     $application =new \lib\phaster\Application($container);
-    $application->get('/', function () use ($application) {
-        echo $application['view']->render('index');
-    });
-
     $application->handle();
 
 }catch (Exception $e){
@@ -32,5 +28,5 @@ try{
 
 
 $t2 = microtime(true);
-echo '<br>耗时'.round($t2-$app_start_time,6).'秒<br>';
+echo '<br>耗时'.round(($t2-$app_start_time)*1000,6).'ms<br>';
 echo 'Now 内存: ' . round(memory_get_usage()/1024,4) . 'kb<br />';

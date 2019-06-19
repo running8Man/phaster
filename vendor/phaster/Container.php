@@ -36,9 +36,9 @@ class Container extends FactoryDefault
     {
         $this->registerConfig();
         $this->registerRouter();
-        $this->registerDispatcher();
+        //$this->registerDispatcher();
         $this->registerView();
-        $this->registerUrlResolver();
+        //$this->registerUrlResolver();
 
     }
 
