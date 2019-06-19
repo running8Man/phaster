@@ -8,10 +8,10 @@
 
 namespace lib\phaster;
 
-use Phalcon\Mvc\Application as PhalconApplication;
+use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\View;
 
-class Application extends PhalconApplication
+class Application extends Micro
 {
     private $container;
 
@@ -20,7 +20,7 @@ class Application extends PhalconApplication
     {
         $this->container=$container;
         $this->setDI($container);
-        $this->autoRegisterModule();
+        //$this->autoRegisterModule();
 
     }
 

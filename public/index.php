@@ -18,9 +18,11 @@ require BASE_PATH.'/config/autoloader.php';
 try{
     $container = new \lib\phaster\Container();
     $application =new \lib\phaster\Application($container);
-    $response = $application->handle();
+    $application->get('/', function () use ($application) {
+        echo $application['view']->render('index');
+    });
 
-    $response->send();
+    $application->handle();
 
 }catch (Exception $e){
     echo $e->getMessage(), '<br>';

@@ -12,6 +12,8 @@ namespace lib\phaster;
 use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\Url;
+use Phalcon\Mvc\View;
 
 class Container extends FactoryDefault
 {
@@ -33,8 +35,10 @@ class Container extends FactoryDefault
     private function registerServices():void
     {
         $this->registerConfig();
-        $this->registerRouter();
-        $this->registerDispatcher();
+        //$this->registerRouter();
+        //$this->registerDispatcher();
+        $this->registerView();
+        $this->registerUrlResolver();
 
     }
 
@@ -93,8 +97,35 @@ class Container extends FactoryDefault
             $dispatcher->setDI($this);
             $dispatcher->dispatch();
         });
+    }
 
+    private function registerView():void {
+        $di=$this;
+        $this->setShared('view',function ()use($di){
+            $view = new View();
+            $view->setViewsDir(self::$app_config->view_dir);
+            $view->registerEngines([
+                '.volt' =>function($view,$di){
+                    $volt = new View\Engine\Volt($view,$di);
+                    $volt->setOptions(
+                        [
+                            'compiledPath'      => self::$app_config->view_cache_dir,
+                            'compiledSeparator' => '_',
+                        ]
+                    );
+                }
+            ]);
+            print_r($view);
+            return $view;
+        });
+    }
 
+    private function registerUrlResolver(){
+        $this->setShared('url',function (){
+            $url = new Url();
+            $url->setBaseUri('/');
+            return $url;
+        });
     }
 
 
