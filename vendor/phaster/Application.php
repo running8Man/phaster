@@ -32,14 +32,9 @@ class Application extends PhalconApplication
         $view=new View();
 
         $this->registerModules([
-            $moduleName => function($container)use($view){
-                $app_config=$container->getShared('app_config');
-                $container->setShared('view',function ()use($view,$app_config){
-                    $view->setViewsDir($app_config->view_dir);
-                    return $view;
-                });
-
-            }
+            $moduleName => [
+            	'className'=>
+			],
         ]);
     }
 
