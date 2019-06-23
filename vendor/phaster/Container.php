@@ -71,17 +71,16 @@ class Container extends FactoryDefault
 
             //强制路由模式
 			if(self::$app_config->url_route_must){
-
+                require BASE_PATH.'/routes/api.php';
 			}else{
 				//设置多模块路由模式
 				$router->add(
 					'/:module/:controller/:action/:params',
 					['module' => 1, 'controller' => 2, 'action' => 3, 'params' => 4]
 				);
+                //设置默认路由
+                $router->setDefaults((array)self::$app_config->default_module);
 			}
-
-            //设置默认路由
-            $router->setDefaults((array)self::$app_config->default_module);
             $router->handle();
             return $router;
         });

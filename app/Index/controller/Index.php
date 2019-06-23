@@ -9,6 +9,10 @@ class Index extends Controller
        return $this->view->render('index');
     }
 
+    public function rest(){
+        return 'rest...';
+    }
+
     public function notfoundAction(){
         echo 'notfound...';
     }

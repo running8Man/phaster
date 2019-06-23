@@ -9,8 +9,22 @@
 namespace lib\phaster;
 
 
-class Router extends \Phalcon\Mvc\Router\Route
+class Router
 {
+    protected static $router;
+
+    public static function getRouterInstance(){
+        if(is_null(self::$router)){
+            self::$router = new \Phalcon\Mvc\Router();
+        }
+        return self::$router;
+    }
+
+    public static function get($pattern, $paths=null){
+        self::$router->addGet();
+    }
+
+
 
 
 }
