@@ -24,18 +24,17 @@ class Application extends Micro
 
 
 	public function dispatchRoute(){
-        $requestPath = $this->getRoutePath();
-        $controllerClass='app'.'\\'.$requestPath['module'].'\\controller\\'.$requestPath['controller'];
-        var_dump($requestPath['module']);
+        [$module,$controller,$action,$rewrite_uri] = $this->getRoutePath();
+        $controllerClass='app'.'\\'.$module.'\\controller\\'.$controller;
         $collection = new \Phalcon\Mvc\Micro\Collection();
         $collection->setHandler($controllerClass,true);
-        $collection->get('/Index',$requestPath['action']);
+        $collection->get($rewrite_uri,$action);
         $this->mount($collection);
     }
 
     public function getRoutePath(){
         $router=$this->container->getShared('router');
-        return ['module'=>$router->getModuleName(), 'controller'=>$router->getControllerName(),'action'=>$router->getActionName()];
+        return [$router->getModuleName(),$router->getControllerName(),$router->getActionName(),$router->getRewriteUri()];
     }
 
 
