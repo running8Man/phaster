@@ -5,9 +5,6 @@
  * +----------------------------------------------------------------------
  **/
 return [
-    //强制路由模式
-    'force_route'    => true,
-
     //日志目录
     'log_dir'        => BASE_PATH . '/storage/logs',
 
@@ -31,7 +28,7 @@ return [
     ],
 
 	//是否强制使用路由
-	'url_route_must' => false,
+	'url_route_must' => true,
 
     //404路由
     'not_found'      => [

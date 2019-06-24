@@ -19,7 +19,6 @@ class Container extends FactoryDefault
 {
     /**
      * 用于缓存配置
-     * @var
      */
     private static $app_config;
 
@@ -29,30 +28,35 @@ class Container extends FactoryDefault
         $this->registerServices();
     }
 
-    /*
-     * 注册所有服务
-     */
+	/**
+	 * 注册所有服务
+	 * author: sss
+	 * date:2019/6/24 9:56
+	 */
     private function registerServices():void
     {
         $this->registerConfig();
         $this->registerRouter();
-        //$this->registerDispatcher();
         $this->registerView();
-        //$this->registerUrlResolver();
 
     }
 
-    /*
-     * 加载配置，便于其他访问
-     */
+	/**
+	 * 加载配置，便于其他访问
+	 * author: sss
+	 * date:2019/6/24 9:56
+	 */
     public static function setAppConfig(){
         if(is_null(self::$app_config)){
             self::$app_config =new Config(include BASE_PATH . '/config/app.php');
         }
     }
-    /*
-     *  注册配置
-     */
+
+	/**
+	 * 注册配置
+	 * author: sss
+	 * date:2019/6/24 9:57
+	 */
     private function registerConfig():void
     {
         self::setAppConfig();
@@ -61,9 +65,11 @@ class Container extends FactoryDefault
         });
     }
 
-    /*
-     * 注册路由
-     */
+	/**
+	 * 注册路由
+	 * author: sss
+	 * date:2019/6/24 9:57
+	 */
     private function registerRouter():void
     {
         $this->setShared('router',function (){
@@ -71,7 +77,7 @@ class Container extends FactoryDefault
 
             //强制路由模式
 			if(self::$app_config->url_route_must){
-
+                require BASE_PATH.'/routes/api.php';
 			}else{
 				//设置多模块路由模式
 				$router->add(
@@ -86,6 +92,7 @@ class Container extends FactoryDefault
             return $router;
         });
     }
+
 
     private function registerDispatcher():void
     {
@@ -105,6 +112,11 @@ class Container extends FactoryDefault
         });
     }
 
+	/**
+	 * 注册视图
+	 * author: sss
+	 * date:2019/6/24 9:57
+	 */
     private function registerView():void {
         $di=$this;
         $this->setShared('view',function ()use($di){
