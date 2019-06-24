@@ -30,7 +30,7 @@ class Application extends Micro
         $app_config=$this->container->getShared('app_config');
         $collection = new \Phalcon\Mvc\Micro\Collection();
         if($app_config->url_route_must){
-        	new Router($collection,$app_config->route_files);
+        	new Route($collection,$app_config->route_files);
             //require BASE_PATH.'/routes/api.php';
         }else{
             $this->dispatchMvc($collection,(array)$app_config->default_module);
@@ -57,9 +57,17 @@ class Application extends Micro
         );
         //设置默认路由
         $router->setDefaults($defaultModule);
-        $router->handle();
+		$router->handle();
         return [$router->getModuleName(),$router->getControllerName(),$router->getActionName(),$router->getRewriteUri()];
     }
+
+
+    public function handle1(){
+    	$this->notFound(function (){
+    		echo 'not found';
+		});
+    	$this->handle();
+	}
 
 
 

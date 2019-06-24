@@ -18,7 +18,7 @@ require BASE_PATH.'/config/autoloader.php';
 try{
     $container = new \lib\phaster\Container();
     $application =new \lib\phaster\Application($container);
-    $application->handle();
+    $application->handle1();
 
 }catch (Exception $e){
     echo $e->getMessage(), '<br>';

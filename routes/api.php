@@ -6,4 +6,4 @@
  **/
 //
 $router->setHandler(new \app\Index\controller\Index());
-$router->get('/abc','rest');
+$router->get('/abc','index');
