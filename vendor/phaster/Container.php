@@ -78,10 +78,10 @@ class Container extends FactoryDefault
 					'/:module/:controller/:action/:params',
 					['module' => 1, 'controller' => 2, 'action' => 3, 'params' => 4]
 				);
+				//设置默认路由
+				$router->setDefaults((array)self::$app_config->default_module);
 			}
 
-            //设置默认路由
-            $router->setDefaults((array)self::$app_config->default_module);
             $router->handle();
             return $router;
         });
