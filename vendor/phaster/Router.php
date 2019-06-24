@@ -9,22 +9,39 @@
 namespace lib\phaster;
 
 
+
+use Phalcon\Loader;
+
 class Router
 {
     protected static $router;
 
-    public static function getRouterInstance(){
-        if(is_null(self::$router)){
-            self::$router = new \Phalcon\Mvc\Router();
-        }
-        return self::$router;
-    }
+    protected static $routeFiles;
 
-    public static function get($pattern, $paths=null){
-        self::$router->addGet();
-    }
+    public function __construct($router,$routeFiles)
+	{
+		self::$router=$router;
+		self::$routeFiles=$routeFiles;
+		$this->registerRouterDirs();
+	}
 
+	public function registerRouterDirs(){
+    	$loader= new Loader();
+		$routeFiles=$this->getRouteFiles();
+		$router=self::$router;
+		$loader->registerFiles($routeFiles,true);
+		$loader->register();
+	}
 
+	public function getRouteFiles(){
+		$routeFileArray=[];
+		$path =BASE_PATH.'/routes/';
+		foreach (self::$routeFiles as $v){
+			$routeFileArray[]=$path.$v.'.php';
+		}
+		return $routeFileArray;
+
+	}
 
 
 }

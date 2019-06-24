@@ -17,15 +17,21 @@ class Application extends Micro
     public function __construct(Container $container)
     {
         $this->container=$container;
-        $this->dispatchRoute();
+        $this->dispatchRequest();
     }
 
 
-    public function dispatchRoute():void {
+	/**
+	 * 请求调度
+	 * author: sss
+	 * date:2019/6/24 12:01
+	 */
+    public function dispatchRequest():void {
         $app_config=$this->container->getShared('app_config');
         $collection = new \Phalcon\Mvc\Micro\Collection();
         if($app_config->url_route_must){
-            require BASE_PATH.'/routes/api.php';
+        	new Router($collection,$app_config->route_files);
+            //require BASE_PATH.'/routes/api.php';
         }else{
             $this->dispatchMvc($collection,(array)$app_config->default_module);
         }

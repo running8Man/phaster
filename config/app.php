@@ -35,7 +35,10 @@ return [
         "module"     => "Index",
         "controller" => "Index",
         "action"     => "notfound",
-    ]
+    ],
+
+	//路由文件
+	'route_files'=>['api'],
 
 
 ];
