@@ -34,7 +34,6 @@ class Route
 	public function registerRouterFiles():void {
     	$loader= new Loader();
 		$routeFiles=$this->getRouteFiles();
-		$router=self::$router;
 		$loader->registerFiles($routeFiles,true);
 		$loader->register();
 	}
@@ -55,6 +54,26 @@ class Route
 		return $routeFileArray;
 
 	}
+
+	public static function resolvePath(string $path){
+		return explode('@',$path);
+	}
+
+	public static function get(string $pattern, $func){
+		self::$router->add($pattern,$func);
+		self::$router->handle();
+		echo self::$router->getControllerName();
+	}
+
+	public static function get1(string $pattern, string $path)
+	{
+		[$module,$controller,$action]=self::resolvePath($path);
+		$className='app\\'.$module.'\\controller\\'.$controller;
+		self::$router->setHandler(new $className);
+		self::$router->get($pattern,$action);
+	}
+
+
 
 
 }

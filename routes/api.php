@@ -5,5 +5,10 @@
  * +----------------------------------------------------------------------
  **/
 //
-$router->setHandler(new \app\Index\controller\Index());
-$router->get('/abc','index');
+use lib\phaster\Route;
+
+//Route::get('/1213','Index@Index@rest');
+Route::get('/1213',[
+	"controller" => "documentation",
+	"action"     => "show",
+]);

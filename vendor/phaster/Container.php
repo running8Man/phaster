@@ -11,6 +11,7 @@ namespace lib\phaster;
 
 use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Http\Response;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Url;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
@@ -20,7 +21,7 @@ class Container extends FactoryDefault
     /**
      * 用于缓存配置
      */
-    private static $app_config;
+    protected static $app_config;
 
     public function __construct()
     {
@@ -33,12 +34,14 @@ class Container extends FactoryDefault
 	 * author: sss
 	 * date:2019/6/24 9:56
 	 */
-    private function registerServices():void
+    protected function registerServices():void
     {
         $this->registerConfig();
         $this->registerRouter();
+        $this->registerDispatcher();
         $this->registerView();
-
+		$this->registerUrlResolver();
+		$this->registerResponse();
     }
 
 	/**
@@ -73,8 +76,7 @@ class Container extends FactoryDefault
     private function registerRouter():void
     {
         $this->setShared('router',function (){
-            $router=new \Phalcon\Mvc\Router();
-            return $router;
+			return new \Phalcon\Mvc\Router();
         });
     }
 
@@ -82,6 +84,7 @@ class Container extends FactoryDefault
     private function registerDispatcher():void
     {
         $this->setShared('dispatcher',function (){
+        	return new Dispatcher();
             $router=$this->getShared('router');
             $module=$router->getModuleName();
             $controller=$router->getControllerName();
@@ -132,6 +135,14 @@ class Container extends FactoryDefault
             return $url;
         });
     }
+
+    private function registerResponse(){
+		$this->setShared('response',function (){
+			return new Response();
+		});
+	}
+
+
 
 
 

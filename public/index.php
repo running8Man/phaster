@@ -16,9 +16,9 @@ define('APP_PATH', BASE_PATH . '/app');
 require BASE_PATH.'/config/autoloader.php';
 
 try{
-    $container = new \lib\phaster\Container();
-    $application =new \lib\phaster\Application($container);
-    $application->handle1();
+    //$container = new \lib\phaster\Container();
+    $application =new \lib\phaster\Application();
+    $application->run();
 
 }catch (Exception $e){
     echo $e->getMessage(), '<br>';
